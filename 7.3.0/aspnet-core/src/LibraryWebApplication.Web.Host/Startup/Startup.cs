@@ -134,19 +134,19 @@ namespace LibraryWebApplication.Web.Host.Startup
                 options.SwaggerDoc(_apiVersion, new OpenApiInfo
                 {
                     Version = _apiVersion,
-                    Title = "LibraryWebApplication API",
-                    Description = "LibraryWebApplication",
+                    Title = "Library Web Application API",
+                    Description = "Library Web Application",
                     // uncomment if needed TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
                         Name = "LibraryWebApplication",
                         Email = string.Empty,
-                        Url = new Uri("https://twitter.com/aspboilerplate"),
+                        Url = new Uri("https://nepallife.com.np/"),
                     },
                     License = new OpenApiLicense
                     {
                         Name = "MIT License",
-                        Url = new Uri("https://github.com/aspnetboilerplate/aspnetboilerplate/blob/dev/LICENSE"),
+                        Url = new Uri("https://nepallife.com.np/"),
                     }
                 });
                 options.DocInclusionPredicate((docName, description) => true);

@@ -12,10 +12,9 @@
 
     var pageTitle = !string.IsNullOrWhiteSpace(ViewBag.Title) ? ViewBag.Title + " / " : "";
     pageTitle += "Nepal Life Insurance Co. Ltd.";
-    //Nepal Life Insurance Co. Ltd.
 }
 <!DOCTYPE html>
-<html lang="@LanguageManager.CurrentLanguage.Name">
+<html @*lang="@LanguageManager.CurrentLanguage.Name"*@>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,7 +28,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="/"><b>LibraryWebApplication</b></a>
+            <a href="/"><b>NLIC Digital Library</b></a>
         </div>
         <div class="card">
             @if (MultiTenancyConfig.IsEnabled)
@@ -47,7 +46,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
-                <small>&copy; @DateTime.Now.Year LibraryWebApplication. <b>Version </b> @AppVersionHelper.Version [@AppVersionHelper.ReleaseDate.ToString("yyyyMMdd")]</small>
+                <small>&copy; @DateTime.Now.Year Nepal Life Insurance Company Limited @*<b>Version </b> @AppVersionHelper.Version [@AppVersionHelper.ReleaseDate.ToString("yyyyMMdd")]*@</small>
             </div>
         </div>
     </div>
