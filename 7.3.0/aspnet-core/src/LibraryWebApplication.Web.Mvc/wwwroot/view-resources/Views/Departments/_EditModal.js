@@ -1,7 +1,7 @@
 ﻿(function ($) {
-    var _tenantService = abp.services.app.tenant,
+    var _departmentService = abp.services.app.department,
         l = abp.localization.getSource('LibraryWebApplication'),
-        _$modal = $('#TenantEditModal'),
+        _$modal = $('#DepartmentEditModal'),
         _$form = _$modal.find('form');
 
     function save() {
@@ -9,13 +9,13 @@
             return;
         }
 
-        var tenant = _$form.serializeFormToObject();
+        var department = _$form.serializeFormToObject();
 
         abp.ui.setBusy(_$form);
-        _tenantService.update(tenant).done(function () {
+        _departmentService.update(department).done(function () {
             _$modal.modal('hide');
             abp.notify.info(l('SavedSuccessfully'));
-            abp.event.trigger('tenant.edited', tenant);
+            abp.event.trigger('department.edited', department);
         }).always(function () {
             abp.ui.clearBusy(_$form);
         });

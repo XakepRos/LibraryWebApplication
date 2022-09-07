@@ -9,8 +9,13 @@ using System.Threading.Tasks;
 
 namespace LibraryWebApplication.Departments
 {
-    public interface IDepartmentService
+    public interface IDepartmentService: IApplicationService
     {
-        
+        void CreateDepartment(DepartmentDto input);
+        Task DeleteDepartment(int deptId);
+        Task EditDepartment(int deptId);
+        Task GetDepartment(int deptId);
+        Task GetAllDepartment();
+
     }
 }

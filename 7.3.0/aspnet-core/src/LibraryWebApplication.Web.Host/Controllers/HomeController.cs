@@ -18,9 +18,10 @@ namespace LibraryWebApplication.Web.Host.Controllers
             _notificationPublisher = notificationPublisher;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return Redirect("/swagger");
+            return Redirect("/swagger/");
         }
 
         /// <summary>

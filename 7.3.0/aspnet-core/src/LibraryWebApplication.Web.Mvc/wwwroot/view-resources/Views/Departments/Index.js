@@ -1,24 +1,25 @@
 ﻿(function ($) {
-    var _tenantService = abp.services.app.tenant,
+    var _departmentService = abp.services.app.department,
         l = abp.localization.getSource('LibraryWebApplication'),
-        _$modal = $('#TenantCreateModal'),
+        _$modal = $('#DepartmentCreateModal'),
         _$form = _$modal.find('form'),
-        _$table = $('#TenantsTable');
+        _$table = $('#DepartmentsTable');
 
-    var _$tenantsTable = _$table.DataTable({
+    var _$departmentsTable = _$table.DataTable({
+        debugger;
         paging: true,
         serverSide: true,
         listAction: {
-            ajaxFunction: _tenantService.getAll,
+            ajaxFunction: _departmentService.getAll,
             inputFilter: function () {
-                return $('#TenantsSearchForm').serializeFormToObject(true);
+                return $('#DepartmentsSearchForm').serializeFormToObject(true);
             }
         },
         buttons: [
             {
                 name: 'refresh',
                 text: '<i class="fas fa-redo-alt"></i>',
-                action: () => _$tenantsTable.draw(false)
+                action: () => _$departmentsTable.draw(false)
             }
         ],
         responsive: {
@@ -34,20 +35,20 @@
             },
             {
                 targets: 1,
-                data: 'tenancyName',
+                data: 'departmentName',
                 sortable: false
             },
             {
                 targets: 2,
-                data: 'name',
+                data: 'description',
                 sortable: false
             },
-            {
-                targets: 3,
-                data: 'isActive',
-                sortable: false,
-                render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
-            },
+            //{
+            //    targets: 3,
+            //    data: 'isActive',
+            //    sortable: false,
+            //    render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
+            //},
             {
                 targets: 4,
                 data: null,
@@ -56,10 +57,10 @@
                 defaultContent: '',
                 render: (data, type, row, meta) => {
                     return [
-                        `   <button type="button" class="btn btn-sm bg-secondary edit-tenant" data-tenant-id="${row.id}" data-toggle="modal" data-target="#TenantEditModal">`,
+                        `   <button type="button" class="btn btn-sm bg-secondary edit-department" data-department-id="${row.id}" data-toggle="modal" data-target="#DepartmentEditModal">`,
                         `       <i class="fas fa-pencil-alt"></i> ${l('Edit')}`,
                         '   </button>',
-                        `   <button type="button" class="btn btn-sm bg-danger delete-tenant" data-tenant-id="${row.id}" data-tenancy-name="${row.name}">`,
+                        `   <button type="button" class="btn btn-sm bg-danger delete-department" data-department-id="${row.id}" data-department-name="${row.name}">`,
                         `       <i class="fas fa-trash"></i> ${l('Delete')}`,
                         '   </button>'
                     ].join('');
@@ -69,71 +70,72 @@
     });
 
     _$form.find('.save-button').click(function (e) {
+        debugger;
         e.preventDefault();
 
         if (!_$form.valid()) {
             return;
         }
 
-        var tenant = _$form.serializeFormToObject();
+        var department = _$form.serializeFormToObject();
 
         abp.ui.setBusy(_$modal);
 
-        _tenantService
-            .create(tenant)
+        _departmentService
+            .create(department)
             .done(function () {
                 _$modal.modal('hide');
                 _$form[0].reset();
                 abp.notify.info(l('SavedSuccessfully'));
-                _$tenantsTable.ajax.reload();
+                _$departmentsTable.ajax.reload();
             })
             .always(function () {
                 abp.ui.clearBusy(_$modal);
             });
     });
 
-    $(document).on('click', '.delete-tenant', function () {
-        var tenantId = $(this).attr('data-tenant-id');
-        var tenancyName = $(this).attr('data-tenancy-name');
+    $(document).on('click', '.delete-department', function () {
+        var departmentId = $(this).attr('data-department-id');
+        var departmentName = $(this).attr('data-department-name');
 
-        deleteTenant(tenantId, tenancyName);
+        deleteDepartmentt(departmentId, departmentName);
     });
 
-    $(document).on('click', '.edit-tenant', function (e) {
-        var tenantId = $(this).attr('data-tenant-id');
+    $(document).on('click', '.edit-department', function (e) {
+        var departmentId = $(this).attr('data-department-id');
 
         abp.ajax({
-            url: abp.appPath + 'Tenants/EditModal?tenantId=' + tenantId,
+            url: abp.appPath + 'Department/EditModal?deptId=' + departmentId,
             type: 'POST',
             dataType: 'html',
             success: function (content) {
-                $('#TenantEditModal div.modal-content').html(content);
+                $('#DepartmentEditModal div.modal-content').html(content);
             },
             error: function (e) {
             }
         });
     });
 
-    abp.event.on('tenant.edited', (data) => {
-        _$tenantsTable.ajax.reload();
+    abp.event.on('department.edited', (data) => {
+        _$departmentsTable.ajax.reload();
     });
 
-    function deleteTenant(tenantId, tenancyName) {
+    function deleteDepartment(departmentId, departmentName) {
         abp.message.confirm(
             abp.utils.formatString(
                 l('AreYouSureWantToDelete'),
-                tenancyName
+                departmentName
             ),
             null,
             (isConfirmed) => {
                 if (isConfirmed) {
-                    _tenantService
+                    _departmentService
                         .delete({
-                            id: tenantId
+                            id: departmentId
                         })
                         .done(() => {
                             abp.notify.info(l('SuccessfullyDeleted'));
-                            _$tenantsTable.ajax.reload();
+                            _$departmentsTable.ajax.reload();
                         });
                 }
             }
@@ -147,18 +149,18 @@
     });
 
     $('.btn-search').on('click', (e) => {
-        _$tenantsTable.ajax.reload();
+        _$departmentsTable.ajax.reload();
     });
 
     $('.btn-clear').on('click', (e) => {
         $('input[name=Keyword]').val('');
-        $('input[name=IsActive][value=""]').prop('checked', true);
-        _$tenantsTable.ajax.reload();
+       // $('input[name=IsActive][value=""]').prop('checked', true);
+        _$departmentsTable.ajax.reload();
     });
 
     $('.txt-search').on('keypress', (e) => {
         if (e.which == 13) {
-            _$tenantsTable.ajax.reload();
+            _$departmentsTable.ajax.reload();
             return false;
         }
     });
