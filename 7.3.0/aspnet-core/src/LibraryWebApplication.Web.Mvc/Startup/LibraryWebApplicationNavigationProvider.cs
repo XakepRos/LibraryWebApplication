@@ -60,8 +60,8 @@ namespace LibraryWebApplication.Web.Startup
                         PageNames.Departments,
                         L("Departments"),
                         url: "Department",
-                        icon: "fas fa-building"
-                        //permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Departments)
+                        icon: "fas fa-building",
+                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Departments)
                     )
                 )
                 .AddItem(
