@@ -1,65 +1,64 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
-using Abp.Authorization;
 using Abp.Domain.Repositories;
-using Abp.UI;
-using LibraryWebApplication.Authorization;
-using LibraryWebApplication.Authorization.Users;
 using LibraryWebApplication.Departments.Dto;
-using LibraryWebApplication.Users.Dto;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Abp.IdentityFramework;
+using LibraryWebApplication.Authorization;
+using Abp.Authorization;
 
 namespace LibraryWebApplication.Departments
 {
-    //[AbpAuthorize(PermissionNames.Pages_Departments)]
-    public class DepartmentService : IDepartmentService
+    [AbpAuthorize(PermissionNames.Pages_Departments)]
+    public class DepartmentService : AsyncCrudAppService<Department, DepartmentDto, int, PagedDepartmentResultRequestDto, CreateDepartmentDto, DepartmentDto>, IDepartmentService
     {
-        private readonly IRepository<Department> _departmentRepository;
+        private readonly IRepository<Department> _departmentsRepository;
 
-        public DepartmentService(IRepository<Department> departmentRepository)
+        public DepartmentService(
+            IRepository<Department> departmentRepository)
+            : base(departmentRepository)
         {
-            _departmentRepository = departmentRepository;
-        }
-        
-        public void CreateDepartment(DepartmentDto input)
-        {
-            var department = _departmentRepository.FirstOrDefault(p => p.DepartmentName == input.DepartmentName);
-            if (department != null)
-            {
-                throw new UserFriendlyException("Department is already exists!");
-            }
-
-            department = new Department {  DepartmentName = input.DepartmentName, Description = input.Description };
-            _departmentRepository.Insert(department);
+            _departmentsRepository = departmentRepository;
         }
 
-        public Task GetAllDepartment()
+        public override async Task<DepartmentDto> CreateAsync(CreateDepartmentDto input)
         {
-            //return await _departmentRepository.GetAllListAsync();
-            throw new NotImplementedException();
+            CheckCreatePermission();
+
+            // Create department
+            var department = ObjectMapper.Map<Department>(input);
+            await _departmentsRepository.InsertAsync(department);
+            await CurrentUnitOfWork.SaveChangesAsync(); // To get new department's id.
+
+            return MapToEntityDto(department);
         }
 
-        public Task GetDepartment(int deptId)
+        protected override IQueryable<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
         {
-            throw new NotImplementedException();
+            return Repository.GetAll();              
         }
 
-        public Task EditDepartment(int deptId)
-        {
-            throw new NotImplementedException();
+        protected override void MapToEntity(DepartmentDto updateInput, Department entity)
+        {        
+            entity.DepartmentName = updateInput.DepartmentName;
+            entity.CreationDate = updateInput.CreatedDate;
+            entity.Description = updateInput.Description;
+            entity.Remarks = updateInput.Remarks;
         }
 
-        public Task DeleteDepartment(int deptId)
+        public override async Task DeleteAsync(EntityDto<int> input)
         {
-            throw new NotImplementedException();
+            CheckDeletePermission();
+
+            var dept = await _departmentsRepository.GetAsync(input.Id);
+            await _departmentsRepository.DeleteAsync(dept);
         }
 
-      
+        private void CheckErrors(IdentityResult identityResult)
+        {
+            identityResult.CheckErrors(LocalizationManager);
+        }
     }
 }

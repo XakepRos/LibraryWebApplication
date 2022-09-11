@@ -1,6 +1,9 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Domain.Services;
 using LibraryWebApplication.Departments.Dto;
+using LibraryWebApplication.MultiTenancy.Dto;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +12,8 @@ using System.Threading.Tasks;
 
 namespace LibraryWebApplication.Departments
 {
-    public interface IDepartmentService: IApplicationService
+    public interface IDepartmentService : IAsyncCrudAppService<DepartmentDto, int, PagedDepartmentResultRequestDto, CreateDepartmentDto, DepartmentDto>
     {
-        void CreateDepartment(DepartmentDto input);
-        Task DeleteDepartment(int deptId);
-        Task EditDepartment(int deptId);
-        Task GetDepartment(int deptId);
-        Task GetAllDepartment();
-
+       
     }
 }

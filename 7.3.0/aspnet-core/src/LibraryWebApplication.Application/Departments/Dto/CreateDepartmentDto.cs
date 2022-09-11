@@ -1,6 +1,4 @@
-﻿using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
-using LibraryWebApplication.MultiTenancy;
+﻿using Abp.AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +9,7 @@ using System.Threading.Tasks;
 namespace LibraryWebApplication.Departments.Dto
 {
     [AutoMapTo(typeof(Department))]
-    public class DepartmentDto : EntityDto<int>
+    public class CreateDepartmentDto
     {
         [Required]
         public string DepartmentName { get; set; }

@@ -1,12 +1,13 @@
 ﻿(function ($) {
-    var _departmentService = abp.services.app.department,
+    debugger;
+    var _departmentService = abp.services.app.departmentService,
         l = abp.localization.getSource('LibraryWebApplication'),
         _$modal = $('#DepartmentCreateModal'),
         _$form = _$modal.find('form'),
         _$table = $('#DepartmentsTable');
 
     var _$departmentsTable = _$table.DataTable({
-        debugger;
+        
         paging: true,
         serverSide: true,
         listAction: {
@@ -98,14 +99,14 @@
         var departmentId = $(this).attr('data-department-id');
         var departmentName = $(this).attr('data-department-name');
 
-        deleteDepartmentt(departmentId, departmentName);
+        deleteDepartment(departmentId, departmentName);
     });
 
     $(document).on('click', '.edit-department', function (e) {
-        var departmentId = $(this).attr('data-department-id');
+        var deptId = $(this).attr('data-department-id');
 
         abp.ajax({
-            url: abp.appPath + 'Department/EditModal?deptId=' + departmentId,
+            url: abp.appPath + 'Department/EditModal?deptId=' + deptId,
             type: 'POST',
             dataType: 'html',
             success: function (content) {

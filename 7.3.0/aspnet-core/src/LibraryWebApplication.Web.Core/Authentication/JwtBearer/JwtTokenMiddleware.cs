@@ -10,7 +10,7 @@ namespace LibraryWebApplication.Authentication.JwtBearer
         {
             return app.Use(async (ctx, next) =>
             {
-                if (ctx.User.Identity?.IsAuthenticated != true)
+                if (ctx.User.Identity?.IsAuthenticated != true) 
                 {
                     var result = await ctx.AuthenticateAsync(schema);
                     if (result.Succeeded && result.Principal != null)

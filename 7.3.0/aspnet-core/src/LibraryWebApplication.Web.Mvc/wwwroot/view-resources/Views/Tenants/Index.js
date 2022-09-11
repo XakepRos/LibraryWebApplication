@@ -1,4 +1,5 @@
 ﻿(function ($) {
+    debugger;
     var _tenantService = abp.services.app.tenant,
         l = abp.localization.getSource('LibraryWebApplication'),
         _$modal = $('#TenantCreateModal'),

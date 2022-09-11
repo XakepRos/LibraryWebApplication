@@ -10,9 +10,12 @@ using System.Threading.Tasks;
 
 namespace LibraryWebApplication.Departments
 {   
-    public class Department: Entity<int>
+    public class Department: Entity
     {
         public string DepartmentName { get; set; }
-        public string Description { get; set; }       
+        public string Description { get; set; }
+        public string Remarks { get; set; }
+        public DateTime CreationDate { get; set; }
+        //public bool? IsActive { get; set; }
     }
 }

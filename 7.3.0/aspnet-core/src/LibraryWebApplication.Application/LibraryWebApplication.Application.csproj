@@ -13,5 +13,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LibraryWebApplication.Core\LibraryWebApplication.Core.csproj" />
+    <ProjectReference Include="..\LibraryWebApplication.EntityFrameworkCore\LibraryWebApplication.EntityFrameworkCore.csproj" />
   </ItemGroup>
 </Project>
