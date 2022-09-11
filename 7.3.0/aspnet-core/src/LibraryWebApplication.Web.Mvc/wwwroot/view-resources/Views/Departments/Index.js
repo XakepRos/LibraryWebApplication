@@ -44,14 +44,19 @@
                 data: 'description',
                 sortable: false
             },
-            //{
-            //    targets: 3,
-            //    data: 'isActive',
-            //    sortable: false,
-            //    render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
-            //},
+            {
+                targets: 3,
+                data: 'remarks',
+                sortable: false
+            },
             {
                 targets: 4,
+                data: 'isActive',
+                sortable: false,
+                render: data => `<input type="checkbox" disabled ${data ? 'checked' : ''}>`
+            },
+            {
+                targets: 5,
                 data: null,
                 sortable: false,
                 autoWidth: false,
@@ -155,7 +160,7 @@
 
     $('.btn-clear').on('click', (e) => {
         $('input[name=Keyword]').val('');
-       // $('input[name=IsActive][value=""]').prop('checked', true);
+       $('input[name=IsActive][value=""]').prop('checked', true);
         _$departmentsTable.ajax.reload();
     });
 

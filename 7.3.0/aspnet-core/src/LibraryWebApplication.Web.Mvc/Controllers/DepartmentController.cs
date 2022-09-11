@@ -1,4 +1,6 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.AspNetCore.Mvc.Authorization;
+using LibraryWebApplication.Authorization;
 using LibraryWebApplication.Controllers;
 using LibraryWebApplication.Departments;
 using LibraryWebApplication.Departments.Dto;
@@ -13,6 +15,7 @@ using static LibraryWebApplication.Authorization.Roles.StaticRoleNames;
 
 namespace LibraryWebApplication.Web.Controllers
 {
+    [AbpMvcAuthorize(PermissionNames.Pages_Departments)]
     public class DepartmentController : LibraryWebApplicationControllerBase
     {
         private readonly IDepartmentService _departmentService;
