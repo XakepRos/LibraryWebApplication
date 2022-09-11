@@ -2,9 +2,15 @@
 <localizationDictionary culture="en">
   <texts>
     <text name="Departments" value="Departments" />
+    <text name="DepartmentName" value="Department name" />
+    <text name="Description" value="Description" />
+    <text name="Remarks" value="Remarks" />
+    <text name="Filetypes" value="File types" />
+    <text name="CreateNewDepartment" value="Create new department" />
+   
     <text name="HomePage" value="Home page" />
     <text name="About" value="About" />
-    <text name="WelcomeMessage" value="Welcome to LibraryWebApplication!" />
+    <text name="WelcomeMessage" value="Welcome to Library Web Application!" />
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
     <text name="TenantNameCanNotBeEmpty" value="Tenant name can not be empty" />
     <text name="InvalidUserNameOrPassword" value="Invalid user name or password" />

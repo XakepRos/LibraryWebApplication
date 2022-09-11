@@ -12,6 +12,8 @@ using LibraryWebApplication.MultiTenancy;
 using static LibraryWebApplication.Authorization.Roles.StaticRoleNames;
 using Abp.MultiTenancy;
 using Abp.Collections.Extensions;
+using AutoMapper;
+using System;
 
 namespace LibraryWebApplication.Departments
 {
@@ -44,6 +46,7 @@ namespace LibraryWebApplication.Departments
             // Create department database
             _abpZeroDbMigrator.CreateOrMigrateForHost();
 
+            
             return MapToEntityDto(department);
         }
 
@@ -68,11 +71,6 @@ namespace LibraryWebApplication.Departments
 
             var dept = await _departmentsRepository.GetAsync(input.Id);
             await _departmentsRepository.DeleteAsync(dept);
-        }
-
-        private void CheckErrors(IdentityResult identityResult)
-        {
-            identityResult.CheckErrors(LocalizationManager);
-        }
+        }   
     }
 }

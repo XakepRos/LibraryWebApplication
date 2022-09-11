@@ -67,7 +67,7 @@ namespace LibraryWebApplication.Web.Startup
                 .AddItem(
                     new MenuItemDefinition(
                         PageNames.FileTypes,
-                        L("File Types"),
+                        L("Filetypes"),
                         url: "Filetypes",
                         icon: "fas fa-file"
                     )
