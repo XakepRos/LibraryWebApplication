@@ -59,7 +59,7 @@ namespace LibraryWebApplication.Departments
         protected override void MapToEntity(DepartmentDto updateInput, Department entity)
         {        
             entity.DepartmentName = updateInput.DepartmentName;
-            entity.CreationDate = updateInput.CreatedDate;
+            entity.CreationTime = updateInput.CreationTime;
             entity.Description = updateInput.Description;
             entity.Remarks = updateInput.Remarks;
             entity.IsActive = updateInput.IsActive;

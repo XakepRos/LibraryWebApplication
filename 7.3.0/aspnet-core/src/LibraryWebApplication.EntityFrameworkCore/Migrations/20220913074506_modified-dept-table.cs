@@ -4,21 +4,21 @@
 
 namespace LibraryWebApplication.Migrations
 {
-    public partial class ModifiedDeptarTable : Migration
+    public partial class modifieddepttable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
+            migrationBuilder.AddColumn<string>(
+                name: "ConnectionString",
                 table: "Departments",
-                type: "bit",
+                type: "nvarchar(max)",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsActive",
+                name: "ConnectionString",
                 table: "Departments");
         }
     }

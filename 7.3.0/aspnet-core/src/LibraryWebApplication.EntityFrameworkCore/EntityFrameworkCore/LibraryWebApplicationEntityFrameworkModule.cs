@@ -18,6 +18,7 @@ namespace LibraryWebApplication.EntityFrameworkCore
 
         public override void PreInitialize()
         {
+            //Configuration.Modules.AbpWebCommon().SendAllExceptionsToClients = true;
             if (!SkipDbContextRegistration)
             {
                 Configuration.Modules.AbpEfCore().AddDbContext<LibraryWebApplicationDbContext>(options =>

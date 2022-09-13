@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryWebApplication.Migrations
 {
     [DbContext(typeof(LibraryWebApplicationDbContext))]
-    [Migration("20220905112052_Official-Db")]
-    partial class OfficialDb
+    [Migration("20220913074506_modified-dept-table")]
+    partial class modifieddepttable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1577,10 +1577,22 @@ namespace LibraryWebApplication.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ConnectionString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("DepartmentName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

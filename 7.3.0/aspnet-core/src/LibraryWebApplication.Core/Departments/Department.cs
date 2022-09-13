@@ -1,6 +1,9 @@
 ﻿using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using Abp.Modules;
+using Abp.Timing;
 using LibraryWebApplication.Authorization.Users;
 using System;
 using System.Collections.Generic;
@@ -11,14 +14,21 @@ using System.Threading.Tasks;
 
 namespace LibraryWebApplication.Departments
 {
-    //[Table("Departments")]
-    public class Department: Entity
+    //[DependsOn(typeof(AbpAutoMapperModule))]
+    public class Department: Entity,/* AbpModule,*/ IHasCreationTime
     {
         public string DepartmentName { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
-        public DateTime CreationDate { get; set; }
         public bool? IsActive { get; set; }
-        //public virtual bool IsActive { get; set; }
+        public DateTime CreationTime { get; set; }
+        public string ConnectionString { get; set; }
+
+        public Department()
+        {
+            CreationTime = Clock.Now;
+        }
+
+       
     }
 }

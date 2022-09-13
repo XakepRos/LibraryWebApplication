@@ -1,6 +1,6 @@
 ﻿(function ($) {
     debugger;
-    var _departmentService = abp.services.app.departmentService,
+    var _departmentService = abp.services.app.department,
         l = abp.localization.getSource('LibraryWebApplication'),
         _$modal = $('#DepartmentCreateModal'),
         _$form = _$modal.find('form'),
@@ -101,6 +101,7 @@
     });
 
     $(document).on('click', '.delete-department', function () {
+        debugger;
         var departmentId = $(this).attr('data-department-id');
         var departmentName = $(this).attr('data-department-name');
 
@@ -108,6 +109,7 @@
     });
 
     $(document).on('click', '.edit-department', function (e) {
+        debugger;
         var deptId = $(this).attr('data-department-id');
 
         abp.ajax({
@@ -127,6 +129,7 @@
     });
 
     function deleteDepartment(departmentId, departmentName) {
+        debugger;
         abp.message.confirm(
             abp.utils.formatString(
                 l('AreYouSureWantToDelete'),

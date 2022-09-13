@@ -22,6 +22,10 @@ using Newtonsoft.Json.Serialization;
 using System.IO;
 using LibraryWebApplication.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Abp.AutoMapper;
+using Abp.EntityFrameworkCore;
+using LibraryWebApplication.Departments;
+using AutoMapper;
 
 namespace LibraryWebApplication.Web.Host.Startup
 {
@@ -89,6 +93,10 @@ namespace LibraryWebApplication.Web.Host.Startup
                     )
                 )
             );
+
+            //services.AddAutoMapper(typeof(AutoMapperProfileConfiguration));
+
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
