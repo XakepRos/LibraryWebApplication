@@ -52,36 +52,18 @@ namespace LibraryWebApplication.Departments
                 CheckCreatePermission();
 
                 // Create department
-                var department = ObjectMapper.Map<Department>(input);
-                department.ConnectionString = input.ConnectionString.IsNullOrEmpty()
-                ? null
-                : SimpleStringCipher.Instance.Encrypt(input.ConnectionString);
-                // await _departmentsRepository.CountAsync();
+                //var department = ObjectMapper.Map<Department>(input);
 
-                await _departmentsRepository.InsertAsync(department);
-                //_mapper.Map<DepartmentDto>(_departmentsRepository.InsertAsync(department));
+                var entity = MapToEntity(input);
+
+                await Repository.InsertAsync(entity);
+
+                //await _departmentsRepository.InsertAsync(department);
+               // _mapper.Map<DepartmentDto>(_departmentsRepository.InsertAsync(entity));
 
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get new department's id.
 
-                // Grant all permissions to admin role
-                //var adminRole = _roleManager.Roles.Single(r => r.Name == StaticRoleNames.Tenants.Admin);
-                //await _roleManager.GrantAllPermissionsAsync(adminRole);
-
-                // Create department database
-                //_abpZeroDbMigrator.CreateOrMigrateForHost();
-
-                //var borrowerDTO = mapper.Map<Department, DepartmentDto>(department);
-                //
-                // this.CreateMap< Department dept, CreateDepartmentDto inputs>();
-                //Department model = Mapper.Map<CreateDepartmentDto>(new Department());
-
-                //return await _mapper.Map<DepartmentDto>(_departmentsRepository.MapTo(department));
-
-                //var deptInfo = _mapper.Map<CreateDepartmentDto>(_departmentsRepository.InsertAsync(department));
-
-                //var dept = _mapper.Map<DepartmentDto>(department);
-                //return dept;
-                return MapToEntityDto(department);
+                return MapToEntityDto(entity);
 
             }
             catch (Exception ex)
@@ -89,12 +71,6 @@ namespace LibraryWebApplication.Departments
                 throw new UserFriendlyException("Cann't create department");
             }
         }
-
-        //protected override IQueryable<DepartmentDto> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
-        //{
-        //    return (IQueryable<DepartmentDto>)base.CreateFilteredQuery(input)
-        //        .WhereIf(input.IsActive.HasValue, t => t.IsActive == input.IsActive.Value);
-        //}
 
         protected override IQueryable<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
         {

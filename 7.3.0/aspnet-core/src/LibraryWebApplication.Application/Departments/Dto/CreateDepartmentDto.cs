@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace LibraryWebApplication.Departments.Dto
 {
     [AutoMapTo(typeof(Department))]
-    public class CreateDepartmentDto: EntityDto, IHasCreationTime
+    public class CreateDepartmentDto: EntityDto/*, IHasCreationTime*/
     {
         [Required]
         public string DepartmentName { get; set; }
@@ -21,6 +21,6 @@ namespace LibraryWebApplication.Departments.Dto
         public string Remarks { get; set; }
         public DateTime CreationTime { get; set; }
         public bool IsActive { get; set; }
-        public string ConnectionString { get; internal set; }
+       
     }
 }

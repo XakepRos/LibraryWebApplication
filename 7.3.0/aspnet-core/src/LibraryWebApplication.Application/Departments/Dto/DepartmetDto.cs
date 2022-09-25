@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace LibraryWebApplication.Departments.Dto
 {
     [AutoMapTo(typeof(Department))]
-    public class DepartmentDto : EntityDto, IHasCreationTime
+    public class DepartmentDto : EntityDto /*, IHasCreationTime*/
     {
         [Required]
         public string DepartmentName { get; set; }

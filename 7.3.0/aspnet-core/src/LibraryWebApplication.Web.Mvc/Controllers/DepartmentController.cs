@@ -18,11 +18,11 @@ namespace LibraryWebApplication.Web.Controllers
     [AbpMvcAuthorize(PermissionNames.Pages_Departments)]
     public class DepartmentController : LibraryWebApplicationControllerBase
     {
-        private readonly IDepartmentService _departmentService;
+        private readonly IDepartmentAppService _departmentAppService;
 
-        public DepartmentController(IDepartmentService departmentService)
+        public DepartmentController(IDepartmentAppService departmentAppService)
         {
-            _departmentService = departmentService;
+            _departmentAppService = departmentAppService;
         }
 
         public ActionResult Index()
@@ -32,7 +32,7 @@ namespace LibraryWebApplication.Web.Controllers
 
         public async Task<ActionResult> EditModal(int deptId)
         {
-            var deptDto = await _departmentService.GetAsync(new EntityDto(deptId));
+            var deptDto = await _departmentAppService.GetAsync(new EntityDto(deptId));
             return PartialView("_EditModal", deptDto);
         }
     }

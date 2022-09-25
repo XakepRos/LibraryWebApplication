@@ -15,14 +15,14 @@ using System.Threading.Tasks;
 namespace LibraryWebApplication.Departments
 {
     //[DependsOn(typeof(AbpAutoMapperModule))]
-    public class Department: Entity,/* AbpModule,*/ IHasCreationTime
+    public class Department: Entity /* AbpModule, IHasCreationTime*/
     {
         public string DepartmentName { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
         public bool? IsActive { get; set; }
         public DateTime CreationTime { get; set; }
-        public string ConnectionString { get; set; }
+       
 
         public Department()
         {
