@@ -21,6 +21,7 @@ using Abp.Runtime.Security;
 using LibraryWebApplication.MultiTenancy;
 using Abp.AutoMapper;
 using static AutoMapper.Internal.ExpressionFactory;
+using System.Collections.Generic;
 
 namespace LibraryWebApplication.Departments
 {
@@ -53,35 +54,47 @@ namespace LibraryWebApplication.Departments
 
                 // Create department
                 //var department = ObjectMapper.Map<Department>(input);
+                //input.CreationTime = DateTime.Now;
+                //var entity = MapToEntity(input);
 
-                var entity = MapToEntity(input);
+                var entities = new Department();
+                entities.IsActive = input.IsActive;
+                entities.CreationTime = DateTime.Now;
+                entities.Remarks = input.Remarks;
+                entities.DepartmentName = input.DepartmentName;
+                entities.Description = input.Description;
+                
+                await _departmentsRepository.InsertAsync(entities);
 
-                await Repository.InsertAsync(entity);
+
 
                 //await _departmentsRepository.InsertAsync(department);
                // _mapper.Map<DepartmentDto>(_departmentsRepository.InsertAsync(entity));
 
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get new department's id.
 
-                return MapToEntityDto(entity);
+                return new DepartmentDto();
 
             }
             catch (Exception ex)
             {
-                throw new UserFriendlyException("Cann't create department");
+                throw ex;//new UserFriendlyException("Cann't create department");
             }
         }
 
-        protected override IQueryable<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
+        protected List<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
         {
             try
             {
-                return Repository.GetAll()
-                .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive).AsQueryable();
+
+                var data = _departmentsRepository.GetAllList()
+                .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive).ToList();
+
+                return data;
             }
             catch (Exception ex)
             {
-                throw new UserFriendlyException("Cann't get all created department list");
+                throw ex;//new UserFriendlyException("Cann't get all created department list");
             }
 
         }
