@@ -9,9 +9,9 @@ namespace LibraryWebApplication.Departments
     public class DepartmentManager: Department
     {
         public DepartmentManager(
-                  IRepository<Department> departmentRepository)
-                  : base(
-                      departmentRepository
+                  //IRepository<Department> departmentRepository)
+                  //: base(
+                  //    departmentRepository
                   
                      )
         {
