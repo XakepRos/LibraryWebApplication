@@ -1,6 +1,6 @@
 ﻿(function ($) {
     debugger;
-    var _departmentAppService = abp.services.app.department,
+    var _departmentService = abp.services.app.department,
         l = abp.localization.getSource('LibraryWebApplication'),
         _$modal = $('#DepartmentCreateModal'),
         _$form = _$modal.find('form'),
@@ -11,7 +11,7 @@
         paging: true,
         serverSide: true,
         listAction: {
-            ajaxFunction: _departmentAppService.CreateFilteredQuery,
+            ajaxFunction: _departmentService.getAll,
             inputFilter: function () {
                 return $('#DepartmentsSearchForm').serializeFormToObject(true);
             }

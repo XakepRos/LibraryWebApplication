@@ -22,6 +22,8 @@ using LibraryWebApplication.MultiTenancy;
 using Abp.AutoMapper;
 using static AutoMapper.Internal.ExpressionFactory;
 using System.Collections.Generic;
+using LibraryWebApplication.MultiTenancy.Dto;
+using LibraryWebApplication.Departments;
 
 namespace LibraryWebApplication.Departments
 {
@@ -29,18 +31,20 @@ namespace LibraryWebApplication.Departments
     public class DepartmentAppService : AsyncCrudAppService<Department, DepartmentDto, int, PagedDepartmentResultRequestDto, CreateDepartmentDto, DepartmentDto>, IDepartmentAppService
     {
         private readonly IRepository<Department> _departmentsRepository;
+        private readonly DepartmentManager _departmentManager;
         private readonly IAbpZeroDbMigrator _abpZeroDbMigrator;
         private readonly RoleManager _roleManager;
         private readonly IMapper _mapper;
 
         public DepartmentAppService(
-            IRepository<Department> departmentRepository,
-            IAbpZeroDbMigrator abpZeroDbMigrator,
+            IRepository<Department, int> repository,
+            DepartmentManager departmentManager,
             RoleManager roleManager,
-            IMapper mapper)
-            : base(repository: departmentRepository)
+            IMapper mapper,
+             IAbpZeroDbMigrator abpZeroDbMigrator)
+            : base(repository)
         {
-            _departmentsRepository = departmentRepository;
+            _departmentManager = departmentManager;
             _abpZeroDbMigrator = abpZeroDbMigrator;
             _roleManager = roleManager;
             _mapper = mapper;
@@ -52,25 +56,14 @@ namespace LibraryWebApplication.Departments
             {
                 CheckCreatePermission();
 
-                // Create department
-                //var department = ObjectMapper.Map<Department>(input);
-                //input.CreationTime = DateTime.Now;
-                //var entity = MapToEntity(input);
-
                 var entities = new Department();
                 entities.IsActive = input.IsActive;
                 entities.CreationTime = DateTime.Now;
                 entities.Remarks = input.Remarks;
                 entities.DepartmentName = input.DepartmentName;
                 entities.Description = input.Description;
-                
+              
                 await _departmentsRepository.InsertAsync(entities);
-
-
-
-                //await _departmentsRepository.InsertAsync(department);
-               // _mapper.Map<DepartmentDto>(_departmentsRepository.InsertAsync(entity));
-
                 await CurrentUnitOfWork.SaveChangesAsync(); // To get new department's id.
 
                 return new DepartmentDto();
@@ -82,21 +75,19 @@ namespace LibraryWebApplication.Departments
             }
         }
 
-        protected List<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
+        protected override IQueryable<Department> CreateFilteredQuery(PagedDepartmentResultRequestDto input)
         {
             try
             {
-
-                var data = _departmentsRepository.GetAllList()
-                .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive).ToList();
-
-                return data;
+                return Repository.GetAll()
+                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.DepartmentName.Contains(input.Keyword))
+                .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive).AsQueryable();
             }
             catch (Exception ex)
             {
-                throw ex;//new UserFriendlyException("Cann't get all created department list");
+                throw ex;
             }
-
+            
         }
 
         protected override void MapToEntity(DepartmentDto updateInput, Department entity)
